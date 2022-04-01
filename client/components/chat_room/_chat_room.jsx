@@ -42,13 +42,13 @@ export const ChatRoom = () => {
           <div>Long: {chatRoom.longitude}</div>
           <div>Lat: {chatRoom.latitude}</div>
         </div>
-      <div>
-        {messages.map((message) => (
+      <div className="messages">
+        {[...messages].reverse().map((message) => (
           <Message key={message.id} message={message} />
         ))}
       </div>
-      <div>
-        <input className="message-input" type="text" value={contents} onChange={(e) => setContents(e.target.value)}/>
+      <div className="chat-input">
+        <input type="text" value={contents} onChange={(e) => setContents(e.target.value)} />
         <Button onClick={() => sendMessage(contents, user)}>Send</Button>
       </div>
     </div>

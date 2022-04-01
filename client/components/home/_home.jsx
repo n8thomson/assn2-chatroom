@@ -42,7 +42,7 @@ export const Home = () => {
   };
 
   return (
-    <div className="container">
+    <div className="app-container">
       <Rooms>
         {chatRooms.map((room) => {
           if (room.latitude > (location[0] - 100) && room.latitude < (location[0] + 100)
@@ -63,7 +63,7 @@ export const Home = () => {
           <Route path="/*" element={<div>Select a room to get started</div>} />
         </Routes>
       </div>
-      {isOpen ? <NewRoomModal createRoom={createRoom} /> : null}
+      {isOpen ? <NewRoomModal createRoom={createRoom} closeModal={() => setIsOpen(false)} /> : null}
     </div>
   );
 };
