@@ -12,6 +12,12 @@ export class ChatRoom {
   @Column()
   roomkey: string;
 
+  @Column()
+  longitude: string;
+
+  @Column()
+  latitude: string;
+
   @OneToMany(() => Message, (message) => message.chatRoom)
   messages: Message[];
 }

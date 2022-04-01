@@ -45,5 +45,27 @@ export default class Seeds implements Seeder {
     } else {
       console.log(`\nAdmin User with email ${process.env.ADMIN_EMAIL} already exists`);
     }
+
+    // CREATE ADMIN USER 2
+    const userRepository2 = connection.getRepository(User);
+    let adminUser2 = await userRepository2.findOne({ email: process.env.ADMIN_EMAIL2 });
+    if (!adminUser2) {
+      const adminRole = await roleRepository.findOne({ key: RoleKey.ADMIN });
+      console.log(`\nCreating Admin User with email ${process.env.ADMIN_EMAIL2}`);
+      console.log(adminRole);
+      const passwordHash = await bcrypt.hash(process.env.ADMIN_PASSWORD2, 10);
+      adminUser2 = new User();
+      adminUser2.email = process.env.ADMIN_EMAIL2;
+      adminUser2.passwordHash = passwordHash;
+      adminUser2.firstName = 'Admin';
+      adminUser2.lastName = 'Site';
+      const adminUserRole = new UserRole();
+      adminUserRole.role = adminRole;
+      adminUser2.userRoles = [adminUserRole];
+      await userRepository2.save(adminUser2);
+    } else {
+      console.log(`\nAdmin User with email ${process.env.ADMIN_EMAIL} already exists`);
+    }
+
   }
 }

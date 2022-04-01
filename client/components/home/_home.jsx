@@ -12,10 +12,11 @@ export const Home = () => {
   // const navigate = useNavigate();
 
   const [chatRooms, setChatRooms] = useState([]);
-
+  const [location, setLocation] = useState([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+
   useEffect(async () => {
     const res = await api.get('/users/me');
     const { chatRooms } = await api.get('/chat_rooms');
@@ -23,15 +24,20 @@ export const Home = () => {
     setChatRooms(chatRooms);
     setUser(res.user);
     setLoading(false);
+    navigator.geolocation.getCurrentPosition((position) => {
+      setLocation([position.coords.latitude, position.coords.longitude]);
+    });
   }, []);
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  const createRoom = async (name) => {
+  const createRoom = async (name ) => {
     setIsOpen(false);
-    const { chatRoom } = await api.post('/chat_rooms', { name });
+    let longitude = location[1];
+    let latitude = location[0];
+    const { chatRoom } = await api.post('/chat_rooms', { name, latitude, longitude});
     setChatRooms([...chatRooms, chatRoom]);
   };
 
@@ -39,11 +45,15 @@ export const Home = () => {
     <div className="container">
       <Rooms>
         {chatRooms.map((room) => {
-          return (
-            <Room key={room.id} to={`chat_rooms/${room.id}`}>
-              {room.name}
-            </Room>
-          );
+          if (room.latitude > (location[0] - 100) && room.latitude < (location[0] + 100)
+          && room.longitude > (location[1] - 100) && room.longitude < (location[1] + 100)){
+            return (
+              <Room key={room.id} to={`chat_rooms/${room.id}`}>
+                {room.name}
+              </Room>
+            );
+          }  
+
         })}
         <Room action={() => setIsOpen(true)}>+</Room>
       </Rooms>
