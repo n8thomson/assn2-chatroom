@@ -15,6 +15,7 @@ export const ChatRoom = () => {
   const api = useContext(ApiContext);
   const { id } = useParams();
   const [messages, sendMessage] = useMessages(chatRoom);
+  const [distance, setDistance] = useState();
 
   useEffect(async () => {
     setLoading(true);
@@ -27,7 +28,12 @@ export const ChatRoom = () => {
     setLoading(false);
     navigator.geolocation.getCurrentPosition((position) => {
       setLocation[position.coords.latitude, position.coords.longitude];
+      setDistance(Math.sqrt(Math.pow(chatRoom.latitude - position.coords.latitude, 2)
+      + Math.pow(chatRoom.longitude - position.coords.longitude, 2)));
     });
+    // setDistance(Math.sqrt(Math.pow(chatRoom.latitude - location[0], 2)
+    //  + Math.pow(chatRoom.longitude - location[1], 2)));
+
   }, [id]);
 
   if (loading) return 'Loading...';
@@ -36,11 +42,18 @@ export const ChatRoom = () => {
 
     <div className="chat-container">
           <div className="chat-header">
-          {chatRoom.name}
-        </div>
+          <div className="chat-title">{chatRoom.name}</div>
+
+          <div className="chat-distance">
+            Distance: {Number(distance).toFixed(3) * 360} feet away
+            </div>
+          
+        
         <div className="chat-location">
-          <div>Long: {chatRoom.longitude}</div>
-          <div>Lat: {chatRoom.latitude}</div>
+          {/* <div>Long: {chatRoom.longitude.toFixed(3)}</div>
+          <div>Lat: {chatRoom.latitude}</div> */}
+          <div>Chat location: {Number(chatRoom.latitude).toFixed(3)}, {Number(chatRoom.longitude).toFixed(3)}</div>
+        </div>
         </div>
       <div className="messages">
         {[...messages].reverse().map((message) => (

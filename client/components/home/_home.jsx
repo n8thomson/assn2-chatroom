@@ -44,9 +44,15 @@ export const Home = () => {
   return (
     <div className="app-container">
       <Rooms>
+      <div className="location-readout">
+      <div>Current location: </div>
+      <div>{Number(location[0]).toFixed(3)}, {Number(location[1]).toFixed(3)}</div>
+      </div>
         {chatRooms.map((room) => {
-          if (room.latitude > (location[0] - 100) && room.latitude < (location[0] + 100)
-          && room.longitude > (location[1] - 100) && room.longitude < (location[1] + 100)){
+          // if (room.latitude > (location[0] - 100) && room.latitude < (location[0] + 100)
+          // && room.longitude > (location[1] - 100) && room.longitude < (location[1] + 100)){
+          let distance = Math.sqrt(Math.pow(room.latitude - location[0], 2) + Math.pow(room.longitude - location[1], 2));
+          if (distance < 50){
             return (
               <Room key={room.id} to={`chat_rooms/${room.id}`}>
                 {room.name}
@@ -57,6 +63,7 @@ export const Home = () => {
         })}
         <Room action={() => setIsOpen(true)}>+</Room>
       </Rooms>
+     
       <div className="chat-window">
         <Routes>
           <Route path="chat_rooms/:id" element={<ChatRoom />} />
