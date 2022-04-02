@@ -100,13 +100,27 @@
   font-size: 16px;
   flex-direction: column;
   justify-content: center;
-  
+  flex: 1;
 }
+
+.start{
+  display: flex;
+  font-size: 16px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
 
 .chat-container{
   font-size: 16px;
   border-bottom: 20px solid #1f7cd4;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }
+
 
 .chat-header{
   font-size: 32px;
@@ -139,17 +153,6 @@
   border-radius: 4px;
 }
 
-.chat-window {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-.chat-container {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-}
 
 .messages {
   display: flex;
@@ -173,7 +176,7 @@
 }
 
 .message {
-  padding: 16px;
+  padding: 14px;
   border-bottom: 1px solid darkseagreen;
 }
 

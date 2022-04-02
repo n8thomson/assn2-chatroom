@@ -67,7 +67,7 @@ export const Home = () => {
       <div className="chat-window">
         <Routes>
           <Route path="chat_rooms/:id" element={<ChatRoom />} />
-          <Route path="/*" element={<div>Select a room to get started</div>} />
+          <Route path="/*" element={<div className="start">Select a room to get started</div>} />
         </Routes>
       </div>
       {isOpen ? <NewRoomModal createRoom={createRoom} closeModal={() => setIsOpen(false)} /> : null}
